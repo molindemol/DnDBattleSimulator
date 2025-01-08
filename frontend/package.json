@@ -1,0 +1,72 @@
+{
+    "app_name": "frontend",
+    "dependencies": {
+        "autoprefixer": "^10.4.20",
+        "fs": "^0.0.1-security",
+        "nativefier": "^52.0.0",
+        "pinia": "^2.2.4",
+        "vue": "^3.5.12",
+        "vue-router": "^4.4.5"
+    },
+    "devDependencies": {
+        "@tsconfig/node20": "^20.1.4",
+        "@types/jsdom": "^21.1.7",
+        "@types/node": "^20.17.6",
+        "@vitejs/plugin-vue": "^5.1.4",
+        "@vitest/eslint-plugin": "1.1.7",
+        "@vue/eslint-config-prettier": "^10.0.0",
+        "@vue/eslint-config-typescript": "^14.0.1",
+        "@vue/test-utils": "^2.4.6",
+        "@vue/tsconfig": "^0.5.1",
+        "electron": "^33.2.1",
+        "eslint": "^9.12.0",
+        "eslint-plugin-vue": "^9.29.0",
+        "jsdom": "^25.0.1",
+        "nodemon": "^3.1.7",
+        "npm-run-all2": "^6.2.3",
+        "prettier": "^3.3.3",
+        "tailwindcss": "^3.4.14",
+        "typescript": "~5.5.4",
+        "vite": "^5.4.8",
+        "vite-plugin-vue-devtools": "^7.4.6",
+        "vitest": "^2.1.2",
+        "vue-tsc": "^2.1.6"
+    },
+    "main": "main.ts",
+    "name": "frontend",
+    "node-main": "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Node.js",
+    "nodejs": false,
+    "private": true,
+    "scripts": {
+        "build": "run-p type-check \"build-only {@}\" --",
+        "build-only": "vite build",
+        "dev": "vite",
+        "format": "prettier --write src",
+        "lint": "eslint  --fix",
+        "preview": "vite preview",
+        "start": "electron ",
+        "test:unit": "vitest",
+        "type-check": "vue-tsc --build --force"
+    },
+    "type": "module",
+    "version": "0.0.0",
+    "webexe_settings": {
+        "download_dir": "",
+        "force_download": false,
+        "nw_compression_level": 0,
+        "nw_version": "0.94.0",
+        "sdk_build": false,
+        "uncompressed_folder": false,
+        "windows-x32": true
+    },
+    "webkit": {},
+    "window": {
+        "frame": true,
+        "id": "frontend",
+        "resizable": true,
+        "show": true,
+        "show_in_taskbar": true,
+        "title": "frontend",
+        "visible": true
+    }
+}
