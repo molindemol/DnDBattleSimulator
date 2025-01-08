@@ -10,22 +10,21 @@ type RollData = {
   ally: boolean;
   hp: number;
 };
-let selected = ref(enemyData[0]);
-let enemyListView = ref([]);
-let searchQuery = ref("")
+const selected = ref(enemyData[0]);
+const enemyListView = ref([]);
+const searchQuery = ref('');
 let enemyList = [];
-let AllRollsView = ref(null);
+const AllRollsView = ref(null);
 let AllRolls: RollData[] = [];
-let rolls = ref([]);
-let initiatives = ref([]);
-let toggler = ref('player');
-let addListView = ref([]);
-let addToggle = ref(true);
-let turnIndicator = ref(0);
+const rolls = ref([]);
+const initiatives = ref([]);
+const toggler = ref('player');
+const addListView = ref([]);
+const addToggle = ref(true);
+const turnIndicator = ref(0);
 let players = structuredClone(playerData);
-let deletedEnemy = []
-let filteredListView = ref(structuredClone(enemyData));
-
+let deletedEnemy = [];
+const filteredListView = ref(structuredClone(enemyData));
 
 function refresh() {
   selected.value = enemyData[0];
@@ -41,12 +40,12 @@ function refresh() {
   turnIndicator.value = 0;
   players = structuredClone(playerData);
   filteredListView.value = structuredClone(enemyData);
-  searchQuery.value = "";
+  searchQuery.value = '';
   deletedEnemy = [];
 }
-watch(searchQuery, (newValue) => {
+watch(searchQuery, newValue => {
   filteredListView.value = filteredEnemies(newValue);
-})
+});
 function addEnemyToLaterList(enemy) {
   const data: RollData = {
     name: enemy.race,
@@ -91,7 +90,9 @@ function playerLister() {
 }
 
 function theEnemyIsDead(enemy) {
-  let index = AllRollsView.value.findIndex(element => element.name == enemy.name);
+  const index = AllRollsView.value.findIndex(
+    element => element.name == enemy.name,
+  );
   console.log(index);
   console.log(AllRollsView.value);
   let fuckingIndex = 0;
@@ -100,20 +101,17 @@ function theEnemyIsDead(enemy) {
     valve = AllRollsView.value[turnIndicator.value];
   }
 
+  if (!enemy.ally) {
+    fuckingIndex = enemyList.findIndex(element => element.name == enemy.name);
+    deletedEnemy.push(enemyList[fuckingIndex]);
 
-
-    if(!enemy.ally){
-      fuckingIndex = enemyList.findIndex(element => element.name == enemy.name);
-      deletedEnemy.push(enemyList[fuckingIndex]);
-
-      enemyList.splice(fuckingIndex, 1);
-    } else {
-      fuckingIndex = players.findIndex(player => player.name == enemy.name);
-      players.splice(fuckingIndex,1)
-    }
+    enemyList.splice(fuckingIndex, 1);
+  } else {
+    fuckingIndex = players.findIndex(player => player.name == enemy.name);
+    players.splice(fuckingIndex, 1);
+  }
 
   AllRollsView.value.splice(index, 1);
-
 
   if (valve && !(valve == enemy)) {
     turnIndicator.value = AllRollsView.value.indexOf(valve);
@@ -121,8 +119,7 @@ function theEnemyIsDead(enemy) {
   if (turnIndicator.value > AllRollsView.value.length - 1) {
     turnIndicator.value = 0;
   }
-  console.log(turnIndicator.value);
-  console.log(AllRollsView.value.length);
+
 }
 
 function projectBalzzz() {
@@ -142,18 +139,17 @@ function projectBalzzz() {
   }
 }
 
-function didSomeoneSayHp(enemyName : string, value : number){
-  let index = AllRollsView.value.findIndex(enemy => enemy.name == enemyName);
-  let fuckingIndex = enemyList.findIndex(enemy => enemy.name == enemyName);
+function didSomeoneSayHp(enemyName: string, value: number) {
+  const index = AllRollsView.value.findIndex(enemy => enemy.name == enemyName);
+  const fuckingIndex = enemyList.findIndex(enemy => enemy.name == enemyName);
 
   AllRollsView.value[index].hp = value;
   enemyList[fuckingIndex].hp = value;
 }
 function filteredEnemies(searchQueryL) {
-
-  return enemyData.filter((enemy) =>
-    enemy.race.toLowerCase().includes(searchQueryL.toLowerCase())
-  )
+  return enemyData.filter(enemy =>
+    enemy.race.toLowerCase().includes(searchQueryL.toLowerCase()),
+  );
 }
 </script>
 
@@ -165,15 +161,24 @@ function filteredEnemies(searchQueryL) {
     >
       Refresh
     </button>
-    <div v-if="(toggler !== 'player') & addToggle " class="absolute right-0 m-6 border border-black rounded-xl w-1/6 bg-stripes">
-
-      <div class=" text-center text-xl  flex flex-wrap gap-0.5 ">
+    <div
+      v-if="(toggler !== 'player') & addToggle"
+      class="absolute right-0 m-6 border border-black rounded-xl w-1/6 bg-stripes"
+    >
+      <div class="text-center text-xl flex flex-wrap gap-0.5">
         <input
           v-model="searchQuery"
           placeholder="Search and select..."
-          class="w-full  border-4 rounded-xl border-blue-700 p-2 "
+          class="w-full border-4 rounded-xl border-blue-700 p-2"
         />
-        <div @click="selected = enemy" class="border-[3px] rounded-xl bg-white cursor-pointer hover:border-blue-700 hover:font-extrabold  flex-grow border-black" :class="{' border-green-300 font-bold': selected.race == enemy.race}" v-for="enemy in filteredListView" >
+        <div
+          @click="selected = enemy"
+          class="border-[3px] rounded-xl bg-white cursor-pointer hover:border-blue-700 hover:font-extrabold flex-grow border-black"
+          :class="{
+            ' border-green-300 font-bold': selected.race == enemy.race,
+          }"
+          v-for="enemy in filteredListView"
+        >
           {{ enemy.race }}
         </div>
       </div>
@@ -190,11 +195,11 @@ function filteredEnemies(searchQueryL) {
       </button>
       <div
         v-if="toggler == 'player'"
-        class=" border-2 bg-stripes border-black rounded-xl p-3"
+        class="border-2 bg-stripes border-black rounded-xl p-3"
       >
         <div
           v-for="(player, index) in players"
-          class="flex place-content-between bg-white rounded-l-full align-middle  mb-4 mt-4 border-green-500 border-4 p-0"
+          class="flex place-content-between bg-white rounded-l-full align-middle mb-4 mt-4 border-green-500 border-4 p-0"
         >
           <div class="flex gap-2 justify-between">
             <img
@@ -208,7 +213,7 @@ function filteredEnemies(searchQueryL) {
               {{ player.name }}
             </h1>
           </div>
-          <div class="flex mx-6 self-center ">
+          <div class="flex mx-6 self-center">
             <p>Roll:</p>
             <input
               v-model="rolls[index]"
@@ -278,8 +283,11 @@ function filteredEnemies(searchQueryL) {
         </div>
       </div>
 
-      <div v-if="toggler == 'battle' & !addToggle" class="border-black border-2 bg-stripes rounded-xl p-4 flex-col">
-       <div class="flex  gap-1 ">
+      <div
+        v-if="(toggler == 'battle') & !addToggle"
+        class="border-black border-2 bg-stripes rounded-xl p-4 flex-col"
+      >
+        <div class="flex gap-1">
           <div
             @click=""
             v-for="(player, index) in AllRollsView"
@@ -287,13 +295,9 @@ function filteredEnemies(searchQueryL) {
               'border-red-500': !player.ally,
               'border-green-500': player.ally,
               '-translate-y-8': index == turnIndicator,
-
             }"
             class="flex overflow-x-clip max-w-[110px] transition rounded-xl bg-white justify-center text-center grow border-4 p-0 pb-1"
           >
-
-
-
             <div class="flex place-content-between text-wrap flex-col">
               <div>
                 <img
@@ -303,20 +307,19 @@ function filteredEnemies(searchQueryL) {
                   height="90"
                   alt=""
                 />
-                <h1 class="font-bold text-base w-0  ">
+                <h1 class="font-bold text-base w-0">
                   {{ player.name }}
                 </h1>
               </div>
-
 
               <div>
                 <div v-if="!player.ally">
                   <h1 class="">HP:</h1>
                   <input
-                    @input="didSomeoneSayHp(player.name,$event.target.value)"
+                    @input="didSomeoneSayHp(player.name, $event.target.value)"
                     :value="player.hp"
                     type="number"
-                    class="border-3 border font-mono appearance-none p-0.5 text-center  border-black w-10"
+                    class="border-3 border font-mono appearance-none p-0.5 text-center border-black w-10"
                   />
                 </div>
                 <br />
@@ -355,7 +358,7 @@ function filteredEnemies(searchQueryL) {
       </div>
       <div class="flex flex-col">
         <div v-if="(toggler == 'battle') & addToggle">
-          <div class=" border-2 border-black bg-stripes rounded-xl p-3 min-w-96">
+          <div class="border-2 border-black bg-stripes rounded-xl p-3 min-w-96">
             <div class="h-[500px] overflow-y-scroll">
               <div
                 v-for="player in addListView"
@@ -397,7 +400,7 @@ function filteredEnemies(searchQueryL) {
 
         <div
           v-if="(toggler !== 'player') & addToggle"
-          class=" border-2 border-black bg-stripes rounded-xl  p-3"
+          class="border-2 border-black bg-stripes rounded-xl p-3"
         >
           <div
             class="flex place-content-between bg-white rounded-xl align-middle grow mb-4 border-4 p-0"
@@ -432,7 +435,6 @@ function filteredEnemies(searchQueryL) {
               </p>
             </div>
           </div>
-
 
           <button
             v-if="toggler !== 'battle'"

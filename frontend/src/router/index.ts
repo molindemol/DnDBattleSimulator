@@ -10,10 +10,9 @@ const router = createRouter({
       name: 'DnDBattleSimulator',
       component: HomeView,
     },
-
   ],
 });
 router.beforeEach((to, from) => {
-  document.title = to.name ?? 'Default Title'
-})
+  document.title = to.name ?? 'Default Title';
+});
 export default router;
