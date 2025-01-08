@@ -239,10 +239,10 @@ function filteredEnemies(searchQueryL) {
         v-if="toggler == 'enemy'"
         class="bg-stripes border-2 rounded-xl border-black p-3 min-w-96"
       >
-        <div class="h-[580px] overflow-y-scroll">
+        <div class="h-[580px] no-scrollbar flex flex-col gap-1 overflow-y-scroll">
           <div
             v-for="player in enemyListView"
-            class="flex place-content-between bg-white rounded-l-full align-middle border-red-500 grow border-4 p-0"
+            class="flex place-content-between max-h-min bg-white rounded-l-full align-middle border-red-500 grow border-4 p-0"
           >
             <div class="flex justify-between">
               <img
@@ -359,10 +359,10 @@ function filteredEnemies(searchQueryL) {
       <div class="flex flex-col">
         <div v-if="(toggler == 'battle') & addToggle">
           <div class="border-2 border-black bg-stripes rounded-xl p-3 min-w-96">
-            <div class="h-[500px] overflow-y-scroll">
+            <div class="h-[500px] flex flex-col gap-1 no-scrollbar overflow-y-scroll">
               <div
                 v-for="player in addListView"
-                class="flex place-content-between bg-white rounded-l-full border-red-500 align-middle grow mb-4 mt-4 border-4 p-0"
+                class="flex place-content-between max-h-min bg-white rounded-l-full border-red-500 align-middle grow   border-4 p-0"
               >
                 <div class="flex justify-between">
                   <img
