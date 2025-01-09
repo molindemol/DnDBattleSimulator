@@ -21,11 +21,12 @@ const initiatives = ref([]);
 const toggler = ref('player');
 const addListView = ref([]);
 const addToggle = ref(true);
+const text = "hallo"
 const turnIndicator = ref(0);
 let players = structuredClone(playerData);
 let deletedEnemy = [];
 const filteredListView = ref(structuredClone(enemyData));
-
+let add = ref(true);
 function refresh() {
   selected.value = enemyData[0];
   enemyListView.value = [];
@@ -46,7 +47,10 @@ function refresh() {
 watch(searchQuery, newValue => {
   filteredListView.value = filteredEnemies(newValue);
 });
+
+
 function addEnemyToLaterList(enemy) {
+  add.value = true;
   const data: RollData = {
     name: enemy.race,
     image: enemy.image,
@@ -65,6 +69,7 @@ function addEnemyToLaterList(enemy) {
   enemyList.push({ ...data, name: uniqueName });
 }
 function addEnemyToList(enemy) {
+  add.value = true;
   const data: RollData = {
     name: enemy.race,
     image: enemy.image,
@@ -155,6 +160,7 @@ function filteredEnemies(searchQueryL) {
 
 <template>
   <main>
+
     <button
       @click="refresh()"
       class="text-center absolute font-bold bg-blue-600 text-white p-4"
@@ -195,7 +201,7 @@ function filteredEnemies(searchQueryL) {
       </button>
       <div
         v-if="toggler == 'player'"
-        class="border-2 bg-stripes border-black rounded-xl p-3"
+        class="border-2 bg-stripes animate-slideUp border-black rounded-xl p-3"
       >
         <div
           v-for="(player, index) in players"
@@ -241,8 +247,9 @@ function filteredEnemies(searchQueryL) {
       >
         <div class="h-[580px] no-scrollbar flex flex-col gap-1 overflow-y-scroll">
           <div
-            v-for="player in enemyListView"
+            v-for="(player, index) in enemyListView"
             class="flex place-content-between max-h-min bg-white rounded-l-full align-middle border-red-500 grow border-4 p-0"
+            :class="{'animate-slideUp': index == (enemyListView.length - 1) && add }"
           >
             <div class="flex justify-between">
               <img
@@ -269,6 +276,7 @@ function filteredEnemies(searchQueryL) {
             @click="
               enemyListView.pop();
               enemyList.pop();
+               add = false;
             "
             class="bg-red-600 rounded-xl font-bold p-4 text-white"
           >
@@ -285,7 +293,7 @@ function filteredEnemies(searchQueryL) {
 
       <div
         v-if="(toggler == 'battle') & !addToggle"
-        class="border-black border-2 bg-stripes rounded-xl p-4 flex-col"
+        class="border-black animate-slideUp border-2 bg-stripes rounded-xl p-4 flex-col"
       >
         <div class="flex gap-1">
           <div
@@ -359,10 +367,12 @@ function filteredEnemies(searchQueryL) {
       <div class="flex flex-col">
         <div v-if="(toggler == 'battle') & addToggle">
           <div class="border-2 border-black bg-stripes rounded-xl p-3 min-w-96">
-            <div class="h-[500px] flex flex-col gap-1 no-scrollbar overflow-y-scroll">
+            <div class="h-[500px] flex flex-col gap-1 no-scrollbar overflow-y-scroll"
+            >
               <div
-                v-for="player in addListView"
+                v-for="(player,index) in addListView"
                 class="flex place-content-between max-h-min bg-white rounded-l-full border-red-500 align-middle grow   border-4 p-0"
+                :class="{'animate-slideUp': index == (addListView.length - 1) && add }"
               >
                 <div class="flex justify-between">
                   <img
@@ -389,6 +399,7 @@ function filteredEnemies(searchQueryL) {
                 @click="
                   addListView.pop();
                   enemyList.pop();
+                  add = false;
                 "
                 class="bg-red-600 font-bold p-4 w-full text-white"
               >
